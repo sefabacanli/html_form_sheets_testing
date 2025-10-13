@@ -1,0 +1,33 @@
+function doPost(e) {
+  try {
+    // Gelen JSON verisini ayrıştır
+    const data = JSON.parse(e.postData.contents);
+    
+    // Aktif çalışma sayfasını al
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const sheet = ss.getSheets()[0];
+    
+    // Yeni satır ekle (tarih dahil)
+    sheet.appendRow([
+      data.name,
+      data.email,
+      data.age,
+      data.gender,
+      data.city,
+      data.message,
+      new Date() // otomatik tarih ekler
+    ]);
+
+    // Başarılı yanıt
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: "success" }))
+      .setMimeType(ContentService.MimeType.JSON);
+
+  } catch (error) {
+    // Hata durumunda yanıt
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: "error", message: error }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+

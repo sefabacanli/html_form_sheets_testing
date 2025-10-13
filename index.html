@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form Verileri - Google Sheets</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    form {
+      background: white;
+      padding: 25px 35px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 450px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #333;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+    }
+
+    input, select, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      margin-top: 20px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #successMessage {
+      margin-top: 15px;
+      text-align: center;
+      color: green;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <form id="dataForm">
+    <h2>Kullanıcı Bilgi Formu</h2>
+
+    <label for="name">Ad Soyad:</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="email">E-posta:</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="age">Yaş:</label>
+    <input type="number" id="age" name="age" min="10" max="99" required>
+
+    <label for="gender">Cinsiyet:</label>
+    <select id="gender" name="gender" required>
+      <option value="">Seçiniz</option>
+      <option value="Erkek">Erkek</option>
+      <option value="Kadın">Kadın</option>
+      <option value="Belirtmek istemiyorum">Belirtmek istemiyorum</option>
+    </select>
+
+    <label for="city">Şehir:</label>
+    <input type="text" id="city" name="city" required>
+
+    <label for="message">Mesajınız:</label>
+    <textarea id="message" name="message" rows="4" required></textarea>
+
+    <button type="submit">Gönder</button>
+    <div id="successMessage"></div>
+  </form>
+
+  <script>
+    const form = document.getElementById('dataForm');
+    const successMessage = document.getElementById('successMessage');
+
+    form.addEventListener('submit', e => {
+      e.preventDefault(); // Sayfa yenilenmesini engeller
+
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      fetch("https://script.google.com/macros/s/AKfycbwWQo8dW5-Uz6pBgMMs9wPZDkMueg5gAH2aCz69sxAY3vUCD17OZJELSk_MnP1IJHKnPg/exec", {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      })
+      .then(() => {
+        successMessage.textContent = "Form başarıyla gönderildi!";
+        form.reset();
+      })
+      .catch(() => {
+        successMessage.textContent = "Bir hata oluştu, lütfen tekrar deneyin.";
+        successMessage.style.color = "red";
+      });
+    });
+  </script>
+
+</body>
+</html>

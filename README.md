@@ -1,4 +1,4 @@
-# html_form_sheets_testing
+# HTML FORM VERİLERİNİ GOOGLE SHEETSE KAYDETME
 Google Sheets Form Entegrasyonu
   * Bu proje, Google Sheets ve Apps Script kullanılarak oluşturulmuş bir form verisi yönetim sistemi örneğidir.
 HTML tabanlı özel bir form arayüzü üzerinden alınan veriler, Google Sheets üzerinde dinamik olarak kaydedilir.
